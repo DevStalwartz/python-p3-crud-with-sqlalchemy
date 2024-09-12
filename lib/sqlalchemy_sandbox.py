@@ -12,9 +12,23 @@ Base = declarative_base()
 
 class Student(Base):
     __tablename__ = 'students'
+    __table__ = (
+        PrimaryKeyConstraint(
+            'id', name='id_pk'
+        ),
+        UniqueConstraint('email', name='unique_email'),
+        CheckConstraint(
+            'grade BETWEEN 1 AND 12',
+            name= 'grade BETWEEN 1 AND 12'
+        )
+    )
 
     id = Column(Integer(), primary_key=True)
     name = Column(String())
+    email = Column(String(55))
+    grade = Column(Integer())
+    birthday = Column(DateTime())
+    enrolled_date = Column(DateTime(), default=datetime.now())
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///:memory:')
